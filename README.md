@@ -2,6 +2,7 @@
 
 ## Usage
 `cd domain-decomposition-release\app\.main\fdtd3d_blend_elastic_model_mpi`
+
 `sh run_rtm_cpml_mpi.sh`
 
 ## Background
