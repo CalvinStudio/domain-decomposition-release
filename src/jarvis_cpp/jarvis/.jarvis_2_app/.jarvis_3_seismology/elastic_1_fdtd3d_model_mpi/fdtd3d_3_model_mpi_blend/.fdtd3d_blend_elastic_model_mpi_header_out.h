@@ -1,0 +1,5 @@
+#pragma once
+#ifndef __FDTD3D_BLEND_ELASTIC_MODEL_MPI_HEADER_OUT_H
+#define __FDTD3D_BLEND_ELASTIC_MODEL_MPI_HEADER_OUT_H
+#include "fdtd3d_blend_elastic_model_mpi_meat.hpp"
+#endif

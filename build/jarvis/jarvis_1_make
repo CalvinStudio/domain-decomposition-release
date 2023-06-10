@@ -1,0 +1,126 @@
+#!/bin/bash
+JARVIS_SH_PATH="/home/calvin/WKSP/domain-decomposition-release/build/jarvis/"
+. ${JARVIS_SH_PATH}jarvis_0_env
+#
+function jarvis_make_cuda_cpp_mpi()
+{
+    _CUDA_SRC=($1)
+    _CPP_SRC=($2)
+    _EXEC_FILE=($3)
+    #
+    _JARVIS_OBJ=""
+    #
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        CPP_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CPP_SRC[i]} .cpp).o"
+        _JARVIS_OBJ+="${CPP_OBJ[i]} "
+    done
+    #
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        CUDA_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CUDA_SRC[i]} .cu).o"
+        _JARVIS_OBJ+="${CUDA_OBJ[i]} "
+    done
+    echo -e "\033[42;37m [make]... \033[0m"
+    echo -e "\033[45;37m [cuda file]: \033[0m"
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        nvcc -std=c++11 -o ${CUDA_OBJ[i]} -c ${_CUDA_SRC[i]} ${OPTION}
+        echo ${CUDA_OBJ[i]}
+    done
+    echo -e "\033[45;37m [cpp file]: \033[0m"
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        mpic++ ${STD} -o ${CPP_OBJ[i]} -c ${_CPP_SRC[i]} ${OPTION}
+        echo ${CPP_OBJ[i]}
+    done
+    echo -e "\033[42;37m [link]... \033[0m"
+    mpic++ ${STD} -o ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_JARVIS_OBJ} ${NVCC_LIBRARY} ${MPI_LIBRARY} ${OPTION}
+    echo ${JARVIS_BIN_PATH}${_EXEC_FILE}
+}
+#
+function jarvis_make_cuda_cpp()
+{
+    _CUDA_SRC=($1)
+    _CPP_SRC=($2)
+    _EXEC_FILE=($3)
+    #
+    _JARVIS_OBJ=""
+    #
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        CUDA_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CUDA_SRC[i]} .cu).o"
+        _JARVIS_OBJ+="${CUDA_OBJ[i]} "
+    done
+    #
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        CPP_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CPP_SRC[i]} .cpp).o"
+        _JARVIS_OBJ+="${CPP_OBJ[i]} "
+    done
+    echo -e "\033[42;37m [make]... \033[0m"
+    echo -e "\033[45;37m [cuda file]: \033[0m"
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        nvcc -std=c++11 ${NVCC_INCLUDE} -o ${CUDA_OBJ[i]} -c  ${_CUDA_SRC[i]} ${NVCC_LIBRARY} ${OPTION}
+        echo ${CUDA_OBJ[i]}
+    done
+    echo -e "\033[45;37m [cpp file]: \033[0m"
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        g++ ${STD} -o ${CPP_OBJ[i]} -c ${_CPP_SRC[i]} ${OPTION}
+        echo ${CPP_OBJ[i]}
+    done
+    echo -e "\033[42;37m [link]... \033[0m"
+    g++ ${STD} ${NVCC_INCLUDE} -o ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_JARVIS_OBJ} ${NVCC_LIBRARY} ${OPTION}
+    echo ${JARVIS_BIN_PATH}${_EXEC_FILE}
+}
+#
+function jarvis_make_cuda_cpp_arma_openmp()
+{
+    _CUDA_SRC=($1)
+    _CPP_SRC=($2)
+    _EXEC_FILE=($3)
+    #
+    _JARVIS_OBJ=""
+    #
+    echo "jarvis_make_cuda_cpp_arma_openmp"
+
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        CUDA_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CUDA_SRC[i]} .cu).o"
+        _JARVIS_OBJ+="${CUDA_OBJ[i]} "
+    done
+    #
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        CPP_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CPP_SRC[i]} .cpp).o"
+        _JARVIS_OBJ+="${CPP_OBJ[i]} "
+    done
+    echo -e "\033[42;37m [make]... \033[0m"
+    echo -e "\033[45;37m [cuda file]: \033[0m"
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        nvcc -std=c++11 ${NVCC_INCLUDE} -o ${CUDA_OBJ[i]} -c  ${_CUDA_SRC[i]} ${NVCC_LIBRARY} ${OPTION}
+        echo ${CUDA_OBJ[i]}
+    done
+    echo -e "\033[45;37m [cpp file]: \033[0m"
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        g++ ${STD} -fopenmp ${ARMA_INCLUDE} ${LAPACK_INLCUDE} -o ${CPP_OBJ[i]} -c ${_CPP_SRC[i]} ${ARMA_LIBRARY} ${LAPACK_LIBRARY} ${OPENBLAS_LIBRARY} ${JARVIS_LIBRARY} -lcblas ${OPTION}
+        echo ${CPP_OBJ[i]}
+    done
+    echo -e "\033[42;37m [link]... \033[0m"
+    g++ ${STD} -fopenmp ${NVCC_INCLUDE} ${ARMA_INCLUDE} ${LAPACK_INLCUDE} -o ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_JARVIS_OBJ} ${NVCC_LIBRARY} ${ARMA_LIBRARY} ${LAPACK_LIBRARY} ${OPENBLAS_LIBRARY} ${JARVIS_LIBRARY} -lcblas ${OPTION}
+    echo ${JARVIS_BIN_PATH}${_EXEC_FILE}
+}
+#
+function jarvis_make_cpp()
+{
+    _CPP_SRC=($1)
+    _EXEC_FILE=($2)
+    #
+    _JARVIS_OBJ=""
+    #
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        CPP_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CPP_SRC[i]} .cpp).o"
+        _JARVIS_OBJ+="${CPP_OBJ[i]} "
+    done
+    echo -e "\033[42;37m [make]... \033[0m"
+    echo -e "\033[45;37m [cpp file]: \033[0m"
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        g++ ${STD} -o ${CPP_OBJ[i]} -c ${_CPP_SRC[i]} ${OPTION}
+        echo ${CPP_OBJ[i]}
+    done
+    echo -e "\033[42;37m [link]... \033[0m"
+    g++ ${STD} -o ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_JARVIS_OBJ} ${OPTION}
+    echo ${JARVIS_BIN_PATH}${_EXEC_FILE}
+}

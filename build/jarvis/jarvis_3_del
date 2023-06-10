@@ -1,0 +1,30 @@
+#!/bin/bash
+JARVIS_SH_PATH="/home/calvin/WKSP/domain-decomposition-release/build/jarvis/"
+. ${JARVIS_SH_PATH}jarvis_0_env
+#
+function jarvis_del()
+{
+    _CUDA_SRC=($1)
+    _CPP_SRC=($2)
+    #
+    _JARVIS_OBJ=""
+    #
+    for i in $(seq 0 $((${#_CUDA_SRC[@]} - 1))); do
+        _CUDA_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CUDA_SRC[i]} .cu).o"
+    done
+    #
+    for i in $(seq 0 $((${#_CPP_SRC[@]} - 1))); do
+        _CPP_OBJ[i]="${JARVIS_OBJ_PATH}$(basename ${_CPP_SRC[i]} .cpp).o"
+    done
+    echo -e "\033[42;37m [delete cuda obj]... \033[0m"
+    for s in ${_CUDA_OBJ[*]}; do
+        echo $s
+    done
+    rm -rf ${_CUDA_OBJ[*]}
+    #
+    echo -e "\033[42;37m [delete cpp obj]... \033[0m"
+    for s in ${_CPP_OBJ[*]}; do
+        echo $s
+    done
+    rm -rf ${_CPP_OBJ[*]}
+}

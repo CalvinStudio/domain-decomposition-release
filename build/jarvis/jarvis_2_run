@@ -1,0 +1,20 @@
+#!/bin/bash
+JARVIS_SH_PATH="/home/calvin/WKSP/domain-decomposition-release/build/jarvis/"
+. ${JARVIS_SH_PATH}jarvis_0_env
+#
+function jarvis_run_mpi()
+{
+    _EXEC_FILE=($1)
+    _TEST_PROJ=($2)
+    _MF_FILE=($3)
+    echo -e "run \033[42;37m[${_EXEC_FILE}]:\033[45;37m${_TEST_PROJ}... \033[0m"
+    mpirun -machinefile ${_MF_FILE} ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_TEST_PROJ}
+}
+#
+function jarvis_run()
+{
+    _EXEC_FILE=($1)
+    _TEST_PROJ=($2)
+    echo -e "run \033[42;37m[${_EXEC_FILE}]:\033[45;37m${_TEST_PROJ}... \033[0m"
+    ${JARVIS_BIN_PATH}${_EXEC_FILE} ${_TEST_PROJ}
+}
