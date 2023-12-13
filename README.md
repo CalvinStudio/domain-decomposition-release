@@ -1,4 +1,6 @@
-![](jarvis.png)
+<div  align="center">    
+<img src="jarvis.png" width = 50%>
+</div>
 
 ## Background
 
