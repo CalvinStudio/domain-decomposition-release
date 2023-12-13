@@ -20,19 +20,17 @@ Major hardware and software list of a single cluster node in my study:
   |Operating system  | CentOS 3.10.0-693.el7.x86\_64 | -|
   |MPI library       | NVIDIA HPC-X OpenMPI v2.8.1   | -|
   |Compilers         | GCC v7.2.0 and NVCC v10.2    | -|
-  | | |
 
 Feasible configurations:
 
   |Hardware/Software | Model/Version                  |Number|
   | :-----           | :----                          | :----  |
   |CPU               | Intel Xeon Gold 6226R 2.9GHz   |$\geq$ 1|
-  |GPU               | NVIDIA GPU (Memory $\geq$ 8GB) |$\geq$ 1|
+  |GPU               | NVIDIA GPU (Memory $\geq$ 8GB) |$\geq$ 2|
   |Host memory       | $\geq$ 32GB                    |$\geq$ 1|
   |Operating system  | Linux                          | -|
   |MPI library       | NVIDIA HPC-X OpenMPI (Support CUDA-Aware MPI)| -|
   |Compilers         | GCC (Support C++17) and NVCC $\geq$ v7.5     | -|
-  | | |
 
 ## Usage
 
