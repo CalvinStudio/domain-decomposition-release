@@ -39,3 +39,120 @@ Feasible configurations:
 `cd domain-decomposition-release\app\.main\fdtd3d_blend_elastic_model_mpi`
 
 `sh run_rtm_cpml_mpi.sh`
+
+## Modify CUDA and MPI environment variables
+
+`cd domain-decomposition-release/build/jarvis/`
+
+`vim jarvis_0_env`
+
+```bash
+#!/bin/bash
+#env
+CUDA_PATH="/public/software/cuda/10.2"
+NVCC_INCLUDE="-I/public/software/cuda/10.2/include"
+MPI_INCLUDE="-I/public/software/mpi/hpcx/2.8.1/ompi/include"
+#
+NVCC_LIBRARY="-L/public/software/cuda/10.2/lib64 -lcudart"
+MPI_LIBRARY="-L/public/software/mpi/hpcx/2.8.1/ompi/lib"
+```
+
+## Modify the macro parameters of the code
+
+`cd domain-decomposition-release/src/jarvis_cpp/jarvis/.jarvis_2_app/.jarvis_3_seismology/elastic_1_fdtd3d_model_mpi/fdtd3d_0_base_module/`
+
+`vim fdtd3d_base_1_interface.hpp`
+
+```cpp
+    class GeoConst
+    {
+    public:
+        static const uint32_t phy_fdorder_half = 4;//Half-difference order of SPR
+        static const uint32_t pml_fdorder_half = 2;//Half-difference order of SAR
+        static const uint32_t rec_width = 1;//The number of layers of storage used for wavefield reconstruction
+    };
+```
+
+## Modify parameters of seismic simulation 
+
+`cd domain-decomposition-release/app/.main/fdtd3d_blend_elastic_model_mpi/fd3d_proj_small/cube100/`
+
+`vim argfile.json`
+
+```json
+"model_path": "cube1001.gms",//Geological model contains P-wave velocity, S-wave velocity, and density.
+"shot_path": "shot.txt",//Shots coordinates; The first number indicates the number of shot points.
+"rece_path": "rece.txt",//Geophones coordinates
+"output_path": "out/",//output path of results.
+//
+"is_output": false,
+//
+"pml_num": 10,//Absorption boundary layer number
+"fm": 100,//Main frequency
+"dt": 0.002,//Time sampling interval
+"T": 4,//Time duration of seismic　waves
+"t_snap": -1,
+//*mpi parameter
+//Grid Dividec
+"x_divide_num": 2,//the number of divisions at the x direction
+"y_divide_num": 2,//the number of divisions at the y direction
+"z_divide_num": 1,//the number of divisions at the z direction
+"slots_per_node": 4//Number of processes started on each compute node.
+```
+
+`vim shot.txt`
+
+```txt
+2
+15 15 15
+25 25 25
+```
+
+`vim rece.txt`
+
+```txt
+8
+15 15 15
+25 15 15
+35 15 15
+45 15 15
+55 15 15
+65 15 15
+75 15 15
+85 15 15
+```
+
+##  Geological model input
+
+`cd domain-decomposition-release/src/jarvis_cpp/jarvis/.jarvis_2_app/.jarvis_3_seismology/elastic_1_fdtd3d_model_mpi/fdtd3d_0_base_module/`
+
+`vim fdtd3d_base_3_geomodel_meat.hpp`
+
+> The model given in the example is in gms format, which integrates the information of P-wave velocity, S-wave velocity, density, etc
+```cpp
+GmsReader gms(model_path);
+gms.read_gms_by_order_to_ffield(phy_vp);
+gms.read_gms_by_order_to_ffield(phy_vs);
+gms.read_gms_by_order_to_ffield(phy_rho);
+gms.clear();
+```
+
+>If you want to input a custom model, you can do so in the following way
+```cpp   
+phy_vp.read_raw("phy_vp.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+phy_vs.read_raw("phy_vs.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+phy_rho.read_raw("phy_rho.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+```
+This code can import binary data of P-wave velocity model, S-wave velocity model and density model into variable 'phy_vp', 'phy_vs' and 'phy_rho', respectively.
+Note that the index order is X, then Y, then Z.
+'Frame(676, 676, 210, 20, 20, 20, 0, 0, 0)' indicates that the data body size is 676x676x210, the grid spacing is 20, and the origin coordinate is 0.
+
+## Migration results output
+
+`cd domain-decomposition-release/app/.main/fdtd3d_blend_elastic_model_mpi/fd3d_proj_small/cube100/out/`
+
+`image_laplace_0_50_50_101_0.000000_0.000000_0.000000.raw`
+
+The numbers after 'image_laplace' are the process number, Nx, Ny, Nz, origin_x, origin_y, origin_z, respectively.
+
+These numbers make it easy for you to draw 3D images in software such as Voxler.
