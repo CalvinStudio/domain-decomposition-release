@@ -64,22 +64,16 @@ MPI_LIBRARY="-L/public/software/mpi/hpcx/2.8.1/ompi/lib"
 `vim fdtd3d_base_1_interface.hpp`
 
 ```cpp
-<<<<<<< HEAD
 class GeoConst
 {
-=======
     class GeoConst
     {
->>>>>>> f1c2038f75d0a89e8f990c6a312a540064d2ba1d
     public:
         static const uint32_t phy_fdorder_half = 4;//Half-difference order of SPR
         static const uint32_t pml_fdorder_half = 2;//Half-difference order of SAR
         static const uint32_t rec_width = 1;//The number of layers of storage used for wavefield reconstruction
-<<<<<<< HEAD
 };
-=======
     };
->>>>>>> f1c2038f75d0a89e8f990c6a312a540064d2ba1d
 ```
 
 ## Modify parameters of seismic simulation 
@@ -147,18 +141,16 @@ gms.clear();
 ```
 
 >If you want to input a custom model, you can do so in the following way
-```cpp   
+```cpp
 phy_vp.read_raw("phy_vp.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 phy_vs.read_raw("phy_vs.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 phy_rho.read_raw("phy_rho.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 ```
+
 This code can import binary data of P-wave velocity model, S-wave velocity model and density model into variable 'phy_vp', 'phy_vs' and 'phy_rho', respectively.
 Note that the index order is X, then Y, then Z.
-<<<<<<< HEAD
+
 'Frame(676, 676, 210, 20, 20, 20, 0, 0, 0)' indicates that the data size is 676x676x210, the grid spacing is 20, and the origin coordinate is 0.
-=======
-'Frame(676, 676, 210, 20, 20, 20, 0, 0, 0)' indicates that the data body size is 676x676x210, the grid spacing is 20, and the origin coordinate is 0.
->>>>>>> f1c2038f75d0a89e8f990c6a312a540064d2ba1d
 
 ## Migration results output
 
@@ -168,8 +160,5 @@ Note that the index order is X, then Y, then Z.
 
 The numbers after 'image_laplace' are the process number, Nx, Ny, Nz, origin_x, origin_y, origin_z, respectively.
 
-<<<<<<< HEAD
 These numbers make it easy for you to draw 3D images in software such as Voxler.
-=======
-These numbers make it easy for you to draw 3D images in software such as Voxler.
->>>>>>> f1c2038f75d0a89e8f990c6a312a540064d2ba1d
+
