@@ -141,12 +141,11 @@ gms.clear();
 ```
 
 >If you want to input a custom model, you can do so in the following way
-```cpp
+```cpp   
 phy_vp.read_raw("phy_vp.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 phy_vs.read_raw("phy_vs.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 phy_rho.read_raw("phy_rho.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
 ```
-
 This code can import binary data of P-wave velocity model, S-wave velocity model and density model into variable 'phy_vp', 'phy_vs' and 'phy_rho', respectively.
 Note that the index order is X, then Y, then Z.
 
