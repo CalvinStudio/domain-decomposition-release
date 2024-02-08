@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-PROJ_PATH="fd3d_proj_small/cube100/"
+PROJ_PATH="fd3d_proj_small/salt/"
 #mpi node
 NODE_INFO="node5 slots=4"
 # NODE_INFO="node5 slots=2 \nnode5 slots=2"

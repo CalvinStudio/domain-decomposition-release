@@ -149,38 +149,38 @@ namespace jarvis
 
         if (jarvis_mpi_cuda_stream_p->mpi_frame.mpi_rank == 0)
         {
-            printf("\033[42;37m[recommend max dt]:\t\033[0m %f\n", dt_cal);
-            printf("\033[42;37m[used          dt]:\t\033[0m %f\n\n", seis_record_p->dt);
-            printf("\033[42;37m[recommend max fm]:\t\033[0m %f\n", fm_cal);
-            printf("\033[42;37m[used          fm]:\t\033[0m %f\n\n", seis_record_p->fm);
-            printf("\033[42;37m[ntime]:\t\033[0m %d\n\n", seis_record_p->ntime);
-            // 3
-            if (sub_model_p->gridphy.d_rows > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T) ||
-                sub_model_p->gridphy.d_cols > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T) ||
-                sub_model_p->gridphy.d_slices > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T))
-            {
-                printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
-                printf("\033[41;37mIt is recommended to reduce the grid spacing or main frequency\033[0m\n");
-                std::abort();
-            }
-            if (sub_model_p->glb_vs_min > 10)
-            {
-                if (sub_model_p->gridphy.d_rows > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T) ||
-                    sub_model_p->gridphy.d_cols > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T) ||
-                    sub_model_p->gridphy.d_slices > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T))
-                {
-                    printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
-                    printf("\033[41;37mIt is recommended to reduce the grid spacing or main frequency\033[0m\n");
-                    std::abort();
-                }
-            }
+           // printf("\033[42;37m[recommend max dt]:\t\033[0m %f\n", dt_cal);
+           // printf("\033[42;37m[used          dt]:\t\033[0m %f\n\n", seis_record_p->dt);
+           // printf("\033[42;37m[recommend max fm]:\t\033[0m %f\n", fm_cal);
+           // printf("\033[42;37m[used          fm]:\t\033[0m %f\n\n", seis_record_p->fm);
+          //  printf("\033[42;37m[ntime]:\t\033[0m %d\n\n", seis_record_p->ntime);
+          //  // 3
+          //  if (sub_model_p->gridphy.d_rows > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T) ||
+            //    sub_model_p->gridphy.d_cols > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T) ||
+           //     sub_model_p->gridphy.d_slices > sub_model_p->glb_vp_min / (seis_record_p->fm * point_num_of_T))
+           // {
+            //    printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
+            //    printf("\033[41;37mIt is recommended to reduce the grid spacing or main frequency\033[0m\n");
+            //    std::abort();
+            //}
+          //  if (sub_model_p->glb_vs_min > 10)
+           // {
+             //   if (sub_model_p->gridphy.d_rows > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T) ||
+             //       sub_model_p->gridphy.d_cols > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T) ||
+             //       sub_model_p->gridphy.d_slices > sub_model_p->glb_vs_min / (seis_record_p->fm * point_num_of_T))
+             //   {
+            //        printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
+            //        printf("\033[41;37mIt is recommended to reduce the grid spacing or main frequency\033[0m\n");
+            //        std::abort();
+           //     }
+           // }
             //*Time stability
-            if (seis_record_p->dt > dt_cal)
-            {
-                printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
-                printf("\033[41;37mIt is recommended to reduce the sampling interval or increase the grid spacing\033[0m\n");
-                std::abort();
-            }
+            //if (seis_record_p->dt > dt_cal)
+           // {
+            //    printf("\033[41;37mThe stability may not be enough, so it is recommended to modify the parameters!!!\033[0m\n");
+            //    printf("\033[41;37mIt is recommended to reduce the sampling interval or increase the grid spacing\033[0m\n");
+            //    std::abort();
+            //}
         }
 
         for (int i = 0; i < jarvis_mpi_cuda_stream_p->mpi_frame.mpi_size; i++)

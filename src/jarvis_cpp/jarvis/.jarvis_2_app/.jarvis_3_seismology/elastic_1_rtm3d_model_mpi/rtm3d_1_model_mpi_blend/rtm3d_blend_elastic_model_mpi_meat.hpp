@@ -120,6 +120,8 @@ namespace jarvis
                 MPI_Barrier(MPI_COMM_WORLD);
             }
         }
+        image.cuda_laplace_filter();
+        image.cuda_source_compensation();
         std::cout << arg_list_p->mpi_rank << std::endl;
         for (int i = 0; i < arg_list_p->mpi_size; i++)
         {

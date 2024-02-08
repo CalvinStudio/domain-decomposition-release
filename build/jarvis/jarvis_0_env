@@ -3,19 +3,13 @@
 CUDA_PATH="/public/software/cuda/10.2"
 NVCC_INCLUDE="-I/public/software/cuda/10.2/include"
 MPI_INCLUDE="-I/public/software/mpi/hpcx/2.8.1/ompi/include"
-LAPACK_INLCUDE="-I /home/calvin/WKSP/PACKAGE/lapack-3.9.0"
-ARMA_INCLUDE="-I/home/calvin/WKSP/armadillo-10.6.2/include"
 #
-ARMA_LIBRARY="-L/home/calvin/WKSP/armadillo-10.6.2 -larmadillo"
 NVCC_LIBRARY="-L/public/software/cuda/10.2/lib64 -lcudart"
 MPI_LIBRARY="-L/public/software/mpi/hpcx/2.8.1/ompi/lib"
-LAPACK_LIBRARY="-L/home/calvin/WKSP/PACKAGE/lapack-3.9.0 -llapack -lcblas -lgfortran"
-OPENBLAS_LIBRARY="-L/home/calvin/WKSP/PACKAGE/OpenBLAS-0.3.13 -lopenblas"
-JARVIS_LIBRARY="-L/home/calvin/WKSP/JARVIS/jarvis/lib"
 #
 #path
-JARVIS_OBJ_PATH="/home/calvin/WKSP/JARVIS/jarvis/obj/"
-JARVIS_BIN_PATH="/home/calvin/WKSP/JARVIS/jarvis/bin/"
+JARVIS_OBJ_PATH="/home/calvin/WKSP/domain-decomposition-release/obj/"
+JARVIS_BIN_PATH="/home/calvin/WKSP/domain-decomposition-release/bin/"
 #
 STD="-std=c++17"
 OPTION="-O3 -w -g"

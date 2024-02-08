@@ -412,27 +412,30 @@ namespace jarvis
         margin.front_margin = arg_list_p->pml_num;
         margin.back_margin = arg_list_p->pml_num;
 
-        GmsReader gms(model_path);
-        gms.read_gms_by_order_to_ffield(phy_vp);
-        gms.read_gms_by_order_to_ffield(phy_vs);
-        gms.read_gms_by_order_to_ffield(phy_rho);
-        gms.clear();
+        //GmsReader gms(model_path);
+        //gms.read_gms_by_order_to_ffield(phy_vp);
+        //gms.read_gms_by_order_to_ffield(phy_vs);
+        //gms.read_gms_by_order_to_ffield(phy_rho);
+        //gms.clear();
 
-        // phy_vp.alloc(Frame(800, 800, 800, 1, 1, 1, 0, 0, 0));
-        // phy_vs.alloc(Frame(800, 800, 800, 1, 1, 1, 0, 0, 0));
-        // phy_rho.alloc(Frame(800, 800, 800, 1, 1, 1, 0, 0, 0));
-        // phy_vp.fill(3000, 0, phy_vp.size() - 1);
-        // phy_vs.fill(2000, 0, phy_vs.size() - 1);
+         phy_vp.alloc(Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+         phy_vs.alloc(Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+         phy_rho.alloc(Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+         
+         Field<float> salt_model;
+         salt_model.read_raw("/home/calvin/WKSP/domain-decomposition-release/app/.main/fdtd3d_blend_elastic_model_mpi/fd3d_proj_small/salt/salt.raw",Frame(676, 676, 210, 20, 20, 20, 0, 0, 0));
+         //phy_vp.fill(3000, 0, phy_vp.size() - 1);
+         //phy_vs.fill(2000, 0, phy_vs.size() - 1);
         // phy_rho.fill(2400, 0, phy_rho.size() - 1);
 
-        // for (int k = 0; k < 200; k++)
-        //     for (int j = 0; j < 800; j++)
-        //         for (int i = 0; i < 800; i++)
-        //         {
-        //             phy_vp(i, j, k) = 2000;
-        //             phy_vs(i, j, k) = 1400;
-        //             phy_rho(i, j, k) = 1400;
-        //         }
+         for (int k = 0; k < 210; k++)
+             for (int j = 0; j < 676; j++)
+                 for (int i = 0; i < 676; i++)
+                 {
+                     phy_vp(i, j, k) = salt_model(i,j,k);
+                     phy_vs(i, j, k) = 0.57*salt_model(i,j,k);
+                     phy_rho(i, j, k) = 2500;
+         }
 
         gridphy = phy_vp;
 
