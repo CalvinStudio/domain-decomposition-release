@@ -66,14 +66,11 @@ MPI_LIBRARY="-L/public/software/mpi/hpcx/2.8.1/ompi/lib"
 ```cpp
 class GeoConst
 {
-    class GeoConst
-    {
     public:
         static const uint32_t phy_fdorder_half = 4;//Half-difference order of SPR
         static const uint32_t pml_fdorder_half = 2;//Half-difference order of SAR
         static const uint32_t rec_width = 1;//The number of layers of storage used for wavefield reconstruction
 };
-    };
 ```
 
 ## Modify parameters of seismic simulation 
